@@ -1,13 +1,10 @@
 
-
 def recursererserr(data, grid, current_coord, rule, counter, highest_tree):
     new_x = current_coord[0] + rule[0]
     new_y = current_coord[1] + rule[1]
     if new_x < 0 or new_y < 0 or new_x >= len(grid[0]) or new_y >= len(grid):
         return counter - 1
     else:
-        new_x = current_coord[0] + rule[0]
-        new_y = current_coord[1] + rule[1]
         if grid[new_y][new_x] >= data:
             return counter
         elif grid[new_y][new_x] < highest_tree:
