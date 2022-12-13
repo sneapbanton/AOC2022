@@ -4,16 +4,16 @@ def get_possible_neighs(coord):
     possible_neighs = []
     current_height = grid[coord[1]][coord[0]]
     if coord[1] < len(grid) - 1:
-        if abs(current_height - grid[coord[1] + 1][coord[0]]) <= 1:
+        if grid[coord[1] + 1][coord[0]] < current_height or abs(current_height - grid[coord[1] + 1][coord[0]]) <= 1:
             possible_neighs.append((coord[0], coord[1] + 1, "^"))
     if coord[1] > 0:
-        if abs(current_height - grid[coord[1] - 1][coord[0]]) <= 1:
+        if grid[coord[1] - 1][coord[0]] < current_height or abs(current_height - grid[coord[1] - 1][coord[0]]) <= 1:
             possible_neighs.append((coord[0], coord[1] - 1, "V"))   
     if coord[0] > 0:
-        if abs(current_height - grid[coord[1]][coord[0] - 1]) <= 1:
+        if grid[coord[1]][coord[0] - 1] < current_height or abs(current_height - grid[coord[1]][coord[0] - 1]) <= 1:
             possible_neighs.append((coord[0] - 1, coord[1], ">")) 
     if coord[0] < len(grid[0]) - 1:
-        if abs(current_height - grid[coord[1]][coord[0] + 1]) <= 1:
+        if grid[coord[1]][coord[0] + 1] < current_height or abs(current_height - grid[coord[1]][coord[0] + 1]) <= 1:
             possible_neighs.append((coord[0] + 1, coord[1], "<")) 
     return possible_neighs
 
@@ -94,7 +94,10 @@ while queue:
             queue.append(neigh)
 
 for r in visited:
-    print(r)
+    row = ""
+    for char in r:
+        row += char
+    print(row)
 
 def upnestler(coord):
     arrow = visited[coord[1]][coord[0]]
