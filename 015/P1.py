@@ -18,18 +18,44 @@ for line in data:
     sensors.append((sensorx, sensory))
     beacons.add((beaconx, beacony))
 
+
+def intervalll_merger(intervals):
+    intervals.sort(key=lambda interval: interval[0])
+
+    # merge the intervals
+    new_intervals = []
+    current_min, current_max = intervals[0]
+    for interval_min, interval_max in intervals:
+        if interval_min <= current_max:
+            current_max = max(current_max, interval_max)
+        else:
+            new_intervals.append((current_min, current_max))
+            current_min, current_max = interval_min, interval_max
+    new_intervals.append((current_min, current_max))
+
+
+    return new_intervals
+
+
 counter = 0
 y = 2000000
-for x in range(-1000000, 5000000):
-    if x%1000001 == 0:
-        print(x)
-    for sen in sensors:
-        if abs(sen[0]-x) + abs(sen[1]-y) <= manhans[sen]:
-            counter += 1
-            break
+length = 4000000
 
+constraints = []
+for sen in sensors:
+    spelrum = manhans[sen] - abs(sen[1]-y)
+    if spelrum > 0:
+        constraints.append((sen[0]-spelrum, sen[0]+spelrum))
+
+new_constraints = intervalll_merger(constraints)
+
+counter = 0
+for cons in new_constraints:
+    counter += len(range(cons[0], cons[1]+1))
+
+beac_counter = 0
 for beacon in beacons:
     if beacon[1] == y:
-        counter -= 1
+        beac_counter += 1
 
-print(counter)
+print(counter-beac_counter)
